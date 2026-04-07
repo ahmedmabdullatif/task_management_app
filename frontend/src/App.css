@@ -1,0 +1,332 @@
+/* ──────────── Design Tokens ──────────── */
+:root {
+  --bg-primary: #0f1117;
+  --bg-secondary: #1a1d27;
+  --bg-card: #22253a;
+  --bg-input: #181b28;
+  --accent: #6c63ff;
+  --accent-hover: #7f78ff;
+  --accent-glow: rgba(108, 99, 255, 0.25);
+  --text-primary: #e8e9ed;
+  --text-secondary: #8b8fa3;
+  --text-muted: #5a5f73;
+  --danger: #ff5c6c;
+  --danger-hover: #ff7a87;
+  --success: #2dd4a8;
+  --border: rgba(255, 255, 255, 0.06);
+  --radius: 14px;
+  --radius-sm: 10px;
+  --transition: 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ──────────── Reset & Base ──────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ──────────── App Shell ──────────── */
+.app {
+  min-height: 100vh;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 60px 20px;
+  background: var(--bg-primary);
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -20%, var(--accent-glow), transparent);
+}
+
+.container {
+  width: 100%;
+  max-width: 540px;
+}
+
+/* ──────────── Header ──────────── */
+.header {
+  text-align: center;
+  margin-bottom: 36px;
+}
+
+.header-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, var(--accent), #9f7aea);
+  color: #fff;
+  margin-bottom: 16px;
+  box-shadow: 0 8px 30px var(--accent-glow);
+}
+
+.header h1 {
+  font-size: 1.85rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: -0.02em;
+}
+
+.subtitle {
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin-top: 6px;
+}
+
+/* ──────────── Add Form ──────────── */
+.add-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+.add-form input {
+  flex: 1;
+  padding: 14px 18px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-input);
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color var(--transition), box-shadow var(--transition);
+}
+
+.add-form input::placeholder {
+  color: var(--text-muted);
+}
+
+.add-form input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+.add-form button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  border: none;
+  border-radius: var(--radius);
+  background: linear-gradient(135deg, var(--accent), #9f7aea);
+  color: #fff;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: transform var(--transition), box-shadow var(--transition), opacity var(--transition);
+}
+
+.add-form button:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px var(--accent-glow);
+}
+
+.add-form button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.add-form button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ──────────── Error Banner ──────────── */
+.error-banner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  border-radius: var(--radius-sm);
+  background: rgba(255, 92, 108, 0.1);
+  color: var(--danger);
+  font-size: 0.875rem;
+  margin-bottom: 20px;
+  border: 1px solid rgba(255, 92, 108, 0.2);
+}
+
+/* ──────────── Task List ──────────── */
+.task-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* ──────────── Task Item ──────────── */
+.task-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  animation: slideIn 0.3s ease both;
+  transition: background var(--transition), border-color var(--transition);
+}
+
+.task-item:hover {
+  background: #282c42;
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.task-content {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  flex: 1;
+  cursor: pointer;
+  padding: 4px 0;
+  user-select: none;
+}
+
+.task-status {
+  flex-shrink: 0;
+  font-size: 1rem;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: transparent;
+  transition: background var(--transition), color var(--transition), transform var(--transition);
+  font-family: inherit;
+}
+
+.task-content:hover .task-status {
+  transform: scale(1.15);
+}
+
+.task-status.completed {
+  color: var(--success);
+  font-weight: 700;
+  background: rgba(45, 212, 168, 0.1);
+}
+
+.task-content:hover .task-status.completed {
+  background: rgba(45, 212, 168, 0.2);
+}
+
+.task-status.pending {
+  color: var(--text-muted);
+}
+
+.task-content:hover .task-status.pending {
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.task-title {
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.task-title.done {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+.delete-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background var(--transition), color var(--transition);
+}
+
+.delete-btn:hover {
+  background: rgba(255, 92, 108, 0.12);
+  color: var(--danger-hover);
+}
+
+/* ──────────── States ──────────── */
+.loading,
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 20px;
+  color: var(--text-muted);
+  gap: 12px;
+}
+
+.empty-state p {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.empty-state span {
+  font-size: 0.85rem;
+}
+
+/* ──────────── Spinner ──────────── */
+.spinner {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid rgba(255, 255, 255, 0.25);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.6s linear infinite;
+}
+
+.spinner.large {
+  width: 28px;
+  height: 28px;
+  border-color: rgba(108, 99, 255, 0.25);
+  border-top-color: var(--accent);
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ──────────── Footer ──────────── */
+.footer {
+  text-align: center;
+  margin-top: 20px;
+  color: var(--text-muted);
+  font-size: 0.825rem;
+}
+
+/* ──────────── Responsive ──────────── */
+@media (max-width: 480px) {
+  .app {
+    padding: 32px 14px;
+  }
+
+  .header h1 {
+    font-size: 1.5rem;
+  }
+}
