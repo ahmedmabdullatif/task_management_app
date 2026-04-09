@@ -31,4 +31,4 @@ jobs:
           fi
           
           # 2. بناء وتشغيل الحاويات باستخدام التعديلات الجديدة
-          sudo docker-compose up -d --build
+          sudo docker compose up -d --build
