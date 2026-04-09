@@ -1,0 +1,41 @@
+services:
+  db:
+    # تحديث إصدار قاعدة البيانات إلى 16
+    image: postgres:16-alpine
+    container_name: task_db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password123
+      POSTGRES_DB: taskdb
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  backend:
+    build: ./backend
+    container_name: task_backend
+    ports:
+      # تحديث منافذ الـ Express
+      - "5001:5001"
+    environment:
+      DB_HOST: db
+      DB_USER: admin
+      DB_PASS: password123
+      DB_NAME: taskdb
+      DB_PORT: 5432
+    depends_on:
+      - db
+
+  frontend:
+    build: ./frontend
+    container_name: task_frontend
+    ports:
+      # ربط منفذ Vite المألوف لديك (5173) بمنفذ Nginx الداخلي (80)
+      - "5173:80"
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:
