@@ -2,8 +2,6 @@
 
 ![Task App Screenshot](./screenshot.png)
 
-![App Demo](./demo.gif)
-
 A simple 3-tier web application built for DevOps portfolio practice. Use this as a baseline to add Docker, Terraform, and CI/CD pipelines.
 
 ## Architecture
