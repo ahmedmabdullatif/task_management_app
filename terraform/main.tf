@@ -27,10 +27,10 @@ resource "aws_security_group" "task_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # فتح منفذ 80 للواجهة الأمامية (Nginx)
+  # فتح منفذ الـ Frontend الفعلي
   ingress {
-    from_port   = 80
-    to_port     = 80
+    from_port   = 5173
+    to_port     = 5173
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
