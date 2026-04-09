@@ -20,6 +20,7 @@ services:
       # تحديث منافذ الـ Express
       - "5001:5001"
     environment:
+      PORT: 5001
       DB_HOST: db
       DB_USER: admin
       DB_PASS: password123
