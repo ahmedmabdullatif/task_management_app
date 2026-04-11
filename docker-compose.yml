@@ -1,6 +1,6 @@
 services:
   db:
-    # تحديث إصدار قاعدة البيانات إلى 16
+    # Update database version to 16
     image: postgres:16-alpine
     container_name: task_db
     environment:
@@ -17,7 +17,7 @@ services:
     build: ./backend
     container_name: task_backend
     ports:
-      # تحديث منافذ الـ Express
+      # Express ports update
       - "5001:5001"
     environment:
       PORT: 5001
@@ -33,7 +33,7 @@ services:
     build: ./frontend
     container_name: task_frontend
     ports:
-      # ربط منفذ Vite المألوف لديك (5173) بمنفذ Nginx الداخلي (80)
+      # Map your familiar Vite port (5173) to internal Nginx port (80)
       - "5173:80"
     depends_on:
       - backend

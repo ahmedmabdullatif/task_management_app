@@ -1,12 +1,12 @@
-# 1. تحديد مزود الخدمة (AWS)
+# 1. Define AWS Provider
 provider "aws" {
-  region = "us-east-1" # يمكنك تغييرها حسب المنطقة الأقرب لك
+  region = "us-east-1" # You can change this to your preferred region
 }
 
-# 2. البحث التلقائي عن أحدث نسخة Ubuntu 22.04
+# 2. Automatically find the latest Ubuntu 22.04 AMI
 data "aws_ami" "ubuntu" {
   most_recent = true
-  owners      = ["099720109477"] # Canonical (الشركة المطورة لأوبونتو)
+  owners      = ["099720109477"] # Canonical (Ubuntu developer)
 
   filter {
     name   = "name"
@@ -14,12 +14,12 @@ data "aws_ami" "ubuntu" {
   }
 }
 
-# 3. إنشاء مجموعة الأمان (Security Group)
+# 3. Create Security Group
 resource "aws_security_group" "task_sg" {
   name        = "task_app_sg"
   description = "Allow SSH, HTTP (Frontend), and Backend API"
 
-  # فتح منفذ SSH للتحكم في السيرفر
+  # Open SSH port to access the server
   ingress {
     from_port   = 22
     to_port     = 22
@@ -27,7 +27,7 @@ resource "aws_security_group" "task_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # فتح منفذ الـ Frontend الفعلي
+  # Open actual Frontend port
   ingress {
     from_port   = 5173
     to_port     = 5173
@@ -35,7 +35,7 @@ resource "aws_security_group" "task_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # فتح منفذ 5001 للخلفية (Backend API)
+  # Open port 5001 for Backend API
   ingress {
     from_port   = 5001
     to_port     = 5001
@@ -43,7 +43,7 @@ resource "aws_security_group" "task_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # السماح للسيرفر بالاتصال بالإنترنت الخارجي (لتنزيل التحديثات)
+  # Allow the server to connect to external internet (to download updates)
   egress {
     from_port   = 0
     to_port     = 0
@@ -52,14 +52,14 @@ resource "aws_security_group" "task_sg" {
   }
 }
 
-# 4. إنشاء الخادم (EC2 Instance)
+# 4. Create an EC2 Instance
 resource "aws_instance" "task_server" {
   ami                    = data.aws_ami.ubuntu.id
-  instance_type          = "t3.micro"     # مجاني ضمن الـ Free Tier
-  key_name               = "task-app-key" # اسم المفتاح الذي أنشأته في AWS
+  instance_type          = "t3.micro"     # Free tier eligible
+  key_name               = "task-app-key" # Name of your AWS key pair
   vpc_security_group_ids = [aws_security_group.task_sg.id]
 
-  # سكريبت يعمل لمرة واحدة فور تشغيل السيرفر لتجهيز بيئة العمل
+  # Script runs once upon instance start to prepare the environment
   user_data = <<-EOF
               #!/bin/bash
               sudo apt-get update -y
@@ -74,7 +74,7 @@ resource "aws_instance" "task_server" {
   }
 }
 
-# 5. طباعة عنوان الـ IP الخارجي بعد الانتهاء
+# 5. Output the public IP address after creation
 output "server_public_ip" {
   value       = aws_instance.task_server.public_ip
   description = "The public IP address of the web server"

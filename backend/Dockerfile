@@ -1,18 +1,18 @@
-# استخدام نسخة خفيفة من Node.js
+# Use a lightweight Node.js image
 FROM node:18-alpine
 
-# تحديد مسار العمل داخل الحاوية
+# Set working directory inside container
 WORKDIR /app
 
-# نسخ ملفات الحزم وتثبيتها أولاً (للاستفادة من الـ Caching)
+# Copy package files and install first (to leverage caching)
 COPY package*.json ./
 RUN npm install
 
-# نسخ باقي ملفات المشروع
+# Copy the rest of the project files
 COPY . .
 
-# فتح المنفذ الذي سيعمل عليه الـ Backend
+# Expose the port where the backend will run
 EXPOSE 5001
 
-# أمر تشغيل السيرفر
+# Command to run the server
 CMD ["npm", "start"]

@@ -1,17 +1,17 @@
-# المرحلة الأولى: البناء (Build Stage)
+# Stage 1: Build Stage
 FROM node:22 as build
 WORKDIR /app
 COPY package.json ./
 RUN npm install --legacy-peer-deps
 COPY . .
-# بناء نسخة الإنتاج بواسطة Vite
-RUN npm run build 
+# Build production version via Vite
+RUN npm run build
 
-# المرحلة الثانية: التشغيل (Production Stage)
+# Stage 2: Production Stage
 FROM nginx:alpine
-# نسخ الملفات المبنية من المرحلة الأولى إلى مسار Nginx
+# Copy built files from the first stage to Nginx directory
 COPY --from=build /app/dist /usr/share/nginx/html
-# فتح منفذ الويب الافتراضي
+# Expose default web port
 EXPOSE 80
-# تشغيل خادم Nginx
+# Start Nginx server
 CMD ["nginx", "-g", "daemon off;"]
